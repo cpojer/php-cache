@@ -61,10 +61,7 @@ class Cache {
 			$this->options['default'] = key($this->engines);
 	}
 	
-	public static function register($engine){
-		static::$availableEngines[] = $engine;
-	}
-	
+	// Engines
 	public function loadEngines(){
 		foreach (static::$availableEngines as $engine){
 			$class = 'Cache\\Backend\\' . $engine;
@@ -75,10 +72,6 @@ class Cache {
 		}
 	}
 	
-	public static function getAvailableEngines(){
-		return static::$availableEngines;
-	}
-	
 	public function getEngine($name = null){
 		$name = strtolower($name);
 		if (empty($this->engines[$name]))
@@ -87,6 +80,7 @@ class Cache {
 		return $this->engines[$name];
 	}
 	
+	// I/O
 	public function retrieve($key, $callback = null, $engine = null){
 		if ($callback && is_string($callback)){
 			$engine = $callback;
@@ -122,6 +116,7 @@ class Cache {
 		return ($this->storage[$key] = $input);
 	}
 	
+	// Erase
 	public function erase($keys){
 		$keys = (array)$keys;
 		foreach ($keys as $key)
@@ -163,7 +158,8 @@ class Cache {
 		$this->storage = array();
 		return $this;
 	}
-
+	
+	// Tags
 	protected function getTagFolder(){
 		return $this->options['root'] . '/' . $this->options['prefix'] . '/Tags/';
 	}
@@ -181,6 +177,15 @@ class Cache {
 	protected function addKeyToTags($key, $tags){
 		foreach ($tags as $tag)
 			$this->addKeyToTag($key, $tag);
+	}
+	
+	// Static
+	public static function register($engine){
+		static::$availableEngines[] = $engine;
+	}
+
+	public static function getAvailableEngines(){
+		return static::$availableEngines;
 	}
 	
 }
