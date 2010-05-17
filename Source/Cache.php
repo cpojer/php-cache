@@ -2,6 +2,9 @@
 
 namespace Cache;
 
+const ONE_DAY = 86400;
+const ONE_WEEK = 604800;
+
 require_once __DIR__ . '/ICacheBackend.php';
 require_once __DIR__ . '/Backend/File.php';
 
