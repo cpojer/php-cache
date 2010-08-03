@@ -54,7 +54,7 @@ class Cache {
 	protected static $availableEngines = array();
 	
 	public function __construct($root, $options = array()){
-		$this->options = array_merge($this->options, $options);
+		$this->options = array_merge($this->options, (array)$options);
 		$this->options['root'] = realpath($root);
 		$this->time = time();
 		
