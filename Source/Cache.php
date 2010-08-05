@@ -13,6 +13,7 @@ function write($file, $content = '', $flags = 0){
 		$directory = dirname($file);
 		if (!is_dir($directory)){
 			$mask = umask(0);
+			
 			mkdir($directory, 0777, true);
 			umask($mask);
 		}
@@ -134,6 +135,7 @@ class Cache {
 	public function eraseByTag($tag){
 		$keys = $this->getKeysByTag($tag);
 		if (count($keys)) $this->erase($keys);
+		$this->eraseTag($tag);
 
 		return $this;
 	}
@@ -143,6 +145,8 @@ class Cache {
 		foreach($tags as $tag){
 			$list = $this->getKeysByTag($tag);
 			$keys = empty($keys) ? $list : array_intersect($keys, $list);
+
+			$this->eraseTag($tag);
 		}
 
 		return $this->erase($keys);
@@ -180,6 +184,10 @@ class Cache {
 	protected function addKeyToTags($key, $tags){
 		foreach ($tags as $tag)
 			$this->addKeyToTag($key, $tag);
+	}
+
+	protected function eraseTag($tag){
+		unlink($this->getTagFolder() . $tag);
 	}
 	
 	// Static
