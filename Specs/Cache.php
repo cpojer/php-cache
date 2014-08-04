@@ -4,6 +4,8 @@ namespace Tests\Cache;
 
 require_once __DIR__ . '/../Source/Backend/APC.php';
 require_once __DIR__ . '/../Source/Backend/Memcache.php';
+require_once __DIR__ . '/../Source/Backend/Memcached.php';
+
 
 use Cache\Cache;
 
@@ -44,6 +46,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase {
 		
 		if (class_exists('Memcache', false))
 			$this->assertTrue(in_array('Memcache', $engines));
+
+                if (class_exists('Memcached', false))
+                        $this->assertTrue(in_array('Memcached', $engines));
+
 		
 		if (function_exists('apc_fetch'))
 			$this->assertTrue(in_array('APC'));
